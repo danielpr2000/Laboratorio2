@@ -1,100 +1,89 @@
 package com.labo2.pasteleria.laboratorio2.Entities;
 
-
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long clienteId;
+    private Long id;
 
-    private String nombre;
-    private String apellido;
+    private String descripcion;
 
-    @Column(unique = true)
-    private String email;
+    private int cantidad;
 
-    private String telefono;
+    private double precioUnitario;
 
-    @Column(columnDefinition = "TEXT")
-    private String direccion;
+    private LocalDate fechaPedido;
 
-    private LocalDate fechaRegistro;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Client cliente;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Pedido> pedidos;
+    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Factura factura;
 
     @PrePersist
     protected void onCreate() {
-        this.fechaRegistro = LocalDate.now();
+        this.fechaPedido = LocalDate.now();
     }
 
-    public long getClienteId() {
-        return clienteId;
+    public Long getId() {
+        return id;
     }
 
-    public void setClienteId(long clienteId) {
-        this.clienteId = clienteId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public String getApellido() {
-        return apellido;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public String getEmail() {
-        return email;
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public LocalDate getFechaPedido() {
+        return fechaPedido;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setFechaPedido(LocalDate fechaPedido) {
+        this.fechaPedido = fechaPedido;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public Client getCliente() {
+        return cliente;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setCliente(Client cliente) {
+        this.cliente = cliente;
     }
 
-    public LocalDate getFechaRegistro() {
-        return fechaRegistro;
+    public Factura getFactura() {
+        return factura;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 }
